@@ -20,12 +20,10 @@ public class Loan {
     private Long LoanId;
 
     @ManyToOne
-    @JoinColumn (name="memberId")
-    private Long memberId;
+    private Member member;
 
     @ManyToOne 
-    @JoinColumn (name = "bookId")
-    private Long bookId;
+    private Book book;
 
     private LocalDate borrowedAt;
     private LocalDate dueDate;
@@ -34,11 +32,12 @@ public class Loan {
     @Enumerated (EnumType.STRING)
     private LoanStatus loanStatus;
     
-    public Loan(Long memberId,Long bookId,LocalDate borrowedAt,LocalDate dueDate,LocalDate returnedAt){
-        this.memberId=memberId;
-        this.bookId=bookId;
+    public Loan(Member member,Book book,LocalDate borrowedAt,LocalDate dueDate,LocalDate returnedAt,LoanStatus loanStatus){
+        this.member=member;
+        this.book=book;
         this.borrowedAt=borrowedAt;
         this.dueDate=dueDate;
         this.returnedAt=returnedAt;
+        this.loanStatus=loanStatus;
     }
 }
