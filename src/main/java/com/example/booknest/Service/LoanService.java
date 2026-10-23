@@ -18,7 +18,9 @@ import com.example.booknest.Repository.MemberRepository;
 public class LoanService {
     @Autowired 
     LoanRepository loanRepository;
+    @Autowired 
     MemberRepository memberRepository;
+    @Autowired 
     BookRepository bookRepository;
     public Loan borrowBook(Long memberId,Long bookId){
 
@@ -27,7 +29,9 @@ public class LoanService {
         Book
          book=bookRepository.findById(bookId).orElseThrow(()->new ResourceNotFoundException("Book not found with ID "+bookId));
          LocalDate today=LocalDate.now();
-         Loan loan=new Loan(member,book,LocalDate.now(),today,today.plusDays(5),null,LoanStatus.ACTIVE);
+         Loan loan=new Loan(member,book,today,today.plusDays(5),null,LoanStatus.ACTIVE);
+
+         return loan;
 
     }
 }
