@@ -9,4 +9,5 @@ import com.example.booknest.Repository.LoanRepository;
 public class LoanService {
     @Autowired 
     LoanRepository loanRepository;
+    
 }

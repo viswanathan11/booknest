@@ -24,4 +24,20 @@ public class BookService {
     public void deleteBook( Long id){
         bookRepository.deleteById(id);
     }
+
+    public Book createBook(Book book){
+        return bookRepository.save(book);
+    }
+
+    public boolean updateBook(Book book){
+        Book newBook=new Book(book.getIsbn(),book.getTitle(),book.getAuthor(),book.getCategory(),book.getTotalCopies(),book.getAvailableCopies());
+        newBook.setBookId(book.getBookId());
+        if(!bookRepository.existsById(book.getBookId())){
+            return false;
+        }else{
+            bookRepository.save(newBook);
+            return true;
+        }
+
+    }
 }
