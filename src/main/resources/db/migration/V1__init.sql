@@ -27,3 +27,4 @@ CREATE TABLE loans (
     CONSTRAINT fk_loans_book
         FOREIGN KEY (book_id) REFERENCES books (id)
 );
+

@@ -7,7 +7,7 @@ spring:
     password: booknest
   jpa:
     hibernate:
-      ddl-auto: update        # fine for learning; switch to Flyway later
+      ddl-auto: validate        # fine for learning; switch to Flyway later
     show-sql: true            # watch the SQL Hibernate generates
     properties:
       hibernate.format_sql: true

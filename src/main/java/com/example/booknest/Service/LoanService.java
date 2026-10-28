@@ -3,6 +3,7 @@ package com.example.booknest.Service;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.booknest.Entity.Book;
@@ -14,6 +15,8 @@ import com.example.booknest.Repository.BookRepository;
 import com.example.booknest.Repository.LoanRepository;
 import com.example.booknest.Repository.MemberRepository;
 
+import jakarta.validation.Valid;
+
 @Service 
 public class LoanService {
     @Autowired 
@@ -22,6 +25,11 @@ public class LoanService {
     MemberRepository memberRepository;
     @Autowired 
     BookRepository bookRepository;
+
+    @Value("${app.library.loan-days}")
+    private  int loanDays;
+    @Value("${app.max-active-loans}")
+    private int maxActiveLoans;
     public Loan borrowBook(Long memberId,Long bookId){
 
         Member member=memberRepository.findById(memberId).orElseThrow(()->new ResourceNotFoundException("Member not find with ID "+memberId));
@@ -29,9 +37,18 @@ public class LoanService {
         Book
          book=bookRepository.findById(bookId).orElseThrow(()->new ResourceNotFoundException("Book not found with ID "+bookId));
          LocalDate today=LocalDate.now();
-         Loan loan=new Loan(member,book,today,today.plusDays(5),null,LoanStatus.ACTIVE);
+         Loan loan=new Loan(member,book,today,today.plusDays(loanDays),null,LoanStatus.ACTIVE);
+         if(book.getAvailableCopies()<=0){
+            throw new ResourceNotFoundException("Book not available");
+         }
 
-         return loan;
+         long activeLoans=loanRepository.countByMemberIdAndLoanStatus(memberId, LoanStatus.ACTIVE);
+         if(activeLoans>=maxActiveLoans){
+            throw new RuntimeException("Member has reached the maximum active laons");
+         }
+         book.setAvailableCopies(book.getAvailableCopies()-1);
+         bookRepository.save(book);
+         return loanRepository.save(loan);
 
     }
 }

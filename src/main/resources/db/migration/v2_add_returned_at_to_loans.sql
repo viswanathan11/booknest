@@ -1,0 +1,1 @@
+ALTER TABLE loans ADD COLUMN returned_at DATE;
