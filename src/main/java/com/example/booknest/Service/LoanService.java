@@ -15,7 +15,7 @@ import com.example.booknest.Repository.BookRepository;
 import com.example.booknest.Repository.LoanRepository;
 import com.example.booknest.Repository.MemberRepository;
 
-import jakarta.validation.Valid;
+
 
 @Service 
 public class LoanService {
@@ -26,6 +26,11 @@ public class LoanService {
     @Autowired 
     BookRepository bookRepository;
 
+    public LoanService(LoanRepository loanRepository,MemberRepository memberRepository,BookRepository bookRepository){
+      this.loanRepository=loanRepository;
+      this.memberRepository=memberRepository;
+      this.bookRepository=bookRepository;
+    }
     @Value("${app.library.loan-days}")
     private  int loanDays;
     @Value("${app.max-active-loans}")
@@ -49,6 +54,6 @@ public class LoanService {
          book.setAvailableCopies(book.getAvailableCopies()-1);
          bookRepository.save(book);
          return loanRepository.save(loan);
-
     }
+    
 }
