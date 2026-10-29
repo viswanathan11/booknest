@@ -1,40 +1,72 @@
 package com.example.booknest.Controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.booknest.Entity.Member;
 import com.example.booknest.Service.MemberService;
+import com.example.booknest.dto.request.MemberRequest;
+import com.example.booknest.dto.response.MemberResponse;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-
-@RestController("/member")
+@RestController 
+@RequestMapping ("/api/member")
+  @Tag(name = "Members", description = "Member management endpoints")
 public class MemberController {
 
-    MemberService memberService;
+    private final MemberService memberService;
 
     public MemberController(MemberService memberService){
         this.memberService=memberService;
     }
     @PostMapping
-    public Member addMember(@RequestBody Member member){
-        return memberService.createMember(member);
+    @Operation (summary = "Register a new member")
+    public ResponseEntity<MemberResponse> addMember(@Valid @RequestBody  MemberRequest request){
+        Member member=new Member(request.name(),request.email(),LocalDateTime.now());
+        Member saved=memberService.createMember(member);
+
+        MemberResponse response=new MemberResponse(saved.getMemberId(),saved.getName(),saved.getEmail());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public Member getMember(@RequestParam Long id){
-        return memberService.getByMemberId(id);
+    @Operation(summary = "Get a member by ID")
+    public ResponseEntity<MemberResponse> getMember(@PathVariable  Long id){
+        Member member=memberService.getByMemberId(id);
+
+        MemberResponse response=new MemberResponse(member.getMemberId(),member.getName(),member.getEmail());
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public List<Member> getAllMembers(){
-        return memberService.getAllMember();
+    @Operation (summary = "List all members")
+    public ResponseEntity<List<MemberResponse>> getAllMembers(){
+        List<MemberResponse> members=memberService.getAllMember().stream().map(m->new MemberResponse(m.getMemberId(),m.getName(),m.getEmail())).toList();
+        return ResponseEntity.ok(members);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary ="Delete a member by Id")
+    public ResponseEntity<Void> deleteMember(@PathVariable Long id){
+        return ResponseEntity.noContent().build();
     }
     
 }

@@ -1,10 +1,11 @@
 package com.example.booknest.dto.request;
 
 public record BookRequest(
+    String isbn,
     String title,
     String author,
-    String isbn,
-    int quantity
+    String category,
+    int totalCopies,
+    int availableCopies
 ) {
-    
 }
