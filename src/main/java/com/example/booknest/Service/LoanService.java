@@ -2,9 +2,7 @@ package com.example.booknest.Service;
 
 import java.time.LocalDate;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +20,10 @@ import com.example.booknest.Repository.MemberRepository;
 
 @Service 
 public class LoanService {
-    @Autowired 
-    LoanRepository loanRepository;
-    @Autowired 
-    MemberRepository memberRepository;
-    @Autowired 
-    BookRepository bookRepository;
+    
+   private final LoanRepository loanRepository;
+   private final MemberRepository memberRepository;
+   private final BookRepository bookRepository;
 
     public LoanService(LoanRepository loanRepository,MemberRepository memberRepository,BookRepository bookRepository){
       this.loanRepository=loanRepository;
@@ -36,7 +32,7 @@ public class LoanService {
     }
     @Value("${app.library.loan-days}")
     private  int loanDays;
-    @Value("${app.max-active-loans}")
+    @Value("${app.library.max-active-loans}")
     private int maxActiveLoans;
 
 

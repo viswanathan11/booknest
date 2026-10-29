@@ -11,9 +11,12 @@ import com.example.booknest.Repository.MemberRepository;
 
 @Service 
 public class MemberService {
-    @Autowired 
+
     MemberRepository memberRepository;
 
+    public MemberService(MemberRepository memberRepository){
+        this.memberRepository=memberRepository;
+    }
     public Member createMember(Member member){
         return memberRepository.save(member);
     }

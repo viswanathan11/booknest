@@ -31,7 +31,7 @@ public class LoanController {
         this.loanService=loanService;
     }
     @PostMapping 
-    @Operation (summary="Return a borrowed book")
+    @Operation (summary="Borrowed book")
     public ResponseEntity<LoanResponse> borrow(@RequestBody LoanRequest loanRequest){
         Loan loan=loanService.borrowBook(loanRequest.memberId(),loanRequest.bookId());
         Book book=loan.getBook();
