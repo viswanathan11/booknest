@@ -24,6 +24,7 @@ import lombok.Setter;
 public class Loan {
     @Id 
     @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column (name="id")
     private Long loanId;
 
     @ManyToOne

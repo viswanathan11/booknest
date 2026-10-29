@@ -32,8 +32,8 @@ public class BookService {
 
     public boolean updateBook(Book book){
         Book newBook=new Book(book.getIsbn(),book.getTitle(),book.getAuthor(),book.getCategory(),book.getTotalCopies(),book.getAvailableCopies());
-        newBook.setBookId(book.getBookId());
-        if(!bookRepository.existsById(book.getBookId())){
+        newBook.setId(book.getId());
+        if(!bookRepository.existsById(book.getId())){
             return false;
         }else{
             bookRepository.save(newBook);

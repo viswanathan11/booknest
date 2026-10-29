@@ -2,6 +2,7 @@ package com.example.booknest.Entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +20,8 @@ import lombok.Setter;
 public class Member {
     @Id 
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    @Column(name="id")
+    private Long id;
 
     private String name;
     private String email;

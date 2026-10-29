@@ -37,8 +37,8 @@ public class LoanController {
         Book book=loan.getBook();
         Member member=loan.getMember();
         
-        BookResponse bookRespons=new BookResponse(book.getBookId(),book.getTitle(),book.getAuthor(),book.getIsbn(),book.getTotalCopies());
-        MemberResponse memberesponse=new MemberResponse(member.getMemberId(),member.getName(),member.getEmail());
+        BookResponse bookRespons=new BookResponse(book.getId(),book.getTitle(),book.getAuthor(),book.getIsbn(),book.getTotalCopies());
+        MemberResponse memberesponse=new MemberResponse(member.getId(),member.getName(),member.getEmail());
         LoanResponse loanResponse=new LoanResponse(loan.getLoanId(),bookRespons,memberesponse,loan.getLoanStatus());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(loanResponse);
@@ -52,8 +52,8 @@ public class LoanController {
 
             Book book=loan.getBook();
             Member member=loan.getMember(); 
-            BookResponse bookRespons=new BookResponse(book.getBookId(),book.getTitle(),book.getAuthor(),book.getIsbn(),book.getTotalCopies());
-            MemberResponse memberesponse=new MemberResponse(member.getMemberId(),member.getName(),member.getEmail());
+            BookResponse bookRespons=new BookResponse(book.getId(),book.getTitle(),book.getAuthor(),book.getIsbn(),book.getTotalCopies());
+            MemberResponse memberesponse=new MemberResponse(member.getId(),member.getName(),member.getEmail());
             LoanResponse loanResponse=new LoanResponse(loan.getLoanId(),bookRespons,memberesponse,loan.getLoanStatus());
 
             return ResponseEntity.ok(loanResponse);

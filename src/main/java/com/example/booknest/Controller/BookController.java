@@ -35,7 +35,7 @@ public class BookController {
         Book book=new Book(bookRequest.isbn(),bookRequest.title(),bookRequest.author(),bookRequest.category(),bookRequest.totalCopies(),bookRequest.availableCopies());
 
         bookService.createBook(book);
-        BookResponse bookResponse=new BookResponse(book.getBookId(),book.getTitle(),book.getAuthor(),book.getIsbn(),book.getTotalCopies());
+        BookResponse bookResponse=new BookResponse(book.getId(),book.getTitle(),book.getAuthor(),book.getIsbn(),book.getTotalCopies());
         return ResponseEntity.ok(bookResponse);
     }
 
@@ -45,7 +45,7 @@ public class BookController {
     public ResponseEntity<BookResponse> getBook(@PathVariable  Long id){
         Book book=bookService.getBookById(id);
 
-        BookResponse bookRespons=new BookResponse(book.getBookId(),book.getTitle(),book.getAuthor(),book.getIsbn(),book.getTotalCopies());
+        BookResponse bookRespons=new BookResponse(book.getId(),book.getTitle(),book.getAuthor(),book.getIsbn(),book.getTotalCopies());
 
         return ResponseEntity.ok(bookRespons);
     }
@@ -55,7 +55,7 @@ public class BookController {
     @Operation (summary = "List all books")
     public ResponseEntity<List<BookResponse>> getBook(){
 
-        List<BookResponse> books=bookService.getAllBooks().stream().map(m->new BookResponse(m.getBookId(),m.getTitle(),m.getAuthor(),m.getIsbn(),m.getTotalCopies())).toList();
+        List<BookResponse> books=bookService.getAllBooks().stream().map(m->new BookResponse(m.getId(),m.getTitle(),m.getAuthor(),m.getIsbn(),m.getTotalCopies())).toList();
 
         return ResponseEntity.ok(books);
     }

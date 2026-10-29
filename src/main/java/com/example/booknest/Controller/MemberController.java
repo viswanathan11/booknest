@@ -39,7 +39,7 @@ public class MemberController {
         Member member=new Member(request.name(),request.email(),LocalDateTime.now());
         Member saved=memberService.createMember(member);
 
-        MemberResponse response=new MemberResponse(saved.getMemberId(),saved.getName(),saved.getEmail());
+        MemberResponse response=new MemberResponse(saved.getId(),saved.getName(),saved.getEmail());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -49,7 +49,7 @@ public class MemberController {
     public ResponseEntity<MemberResponse> getMember(@PathVariable  Long id){
         Member member=memberService.getByMemberId(id);
 
-        MemberResponse response=new MemberResponse(member.getMemberId(),member.getName(),member.getEmail());
+        MemberResponse response=new MemberResponse(member.getId(),member.getName(),member.getEmail());
 
         return ResponseEntity.ok(response);
     }
@@ -57,7 +57,7 @@ public class MemberController {
     @GetMapping
     @Operation (summary = "List all members")
     public ResponseEntity<List<MemberResponse>> getAllMembers(){
-        List<MemberResponse> members=memberService.getAllMember().stream().map(m->new MemberResponse(m.getMemberId(),m.getName(),m.getEmail())).toList();
+        List<MemberResponse> members=memberService.getAllMember().stream().map(m->new MemberResponse(m.getId(),m.getName(),m.getEmail())).toList();
         return ResponseEntity.ok(members);
     }
 
