@@ -19,8 +19,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BuisnessException.class)
-    public ResponseEntity<ErrorDto> handleBuinsessError(BuisnessException ex){
-        ErrorDto error =new ErrorDto(LocalDateTime.now(),500,);
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(error));
+    public ResponseEntity<ErrorDto> handleBuinsessError(BuisnessException ex,HttpServletRequest request){
+        ErrorDto error =new ErrorDto(LocalDateTime.now(),500,ex.getMessage(),request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 }
