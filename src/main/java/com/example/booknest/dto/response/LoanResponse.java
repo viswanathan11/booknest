@@ -4,8 +4,8 @@ import com.example.booknest.Entity.LoanStatus;
 
 public record LoanResponse(
     Long id,
-    Long bookId,
-    Long memberId,
+    BookResponse book,
+    MemberResponse member,
     LoanStatus status
 ) {
 }

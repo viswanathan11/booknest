@@ -39,6 +39,11 @@ public class LoanService {
     @Value("${app.max-active-loans}")
     private int maxActiveLoans;
 
+
+    public Loan getLoan(Long id){
+
+      return loanRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Particular Loan was not found"));
+    }
     @Transactional 
     public Loan borrowBook(Long memberId,Long bookId){
 
